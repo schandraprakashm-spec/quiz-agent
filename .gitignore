@@ -1,0 +1,14 @@
+# Python
+backend/venv/
+backend/__pycache__/
+backend/*.pyc
+backend/.env
+
+# Node
+backend/quiz-frontend/node_modules/
+backend/quiz-frontend/build/
+backend/quiz-frontend/.env
+
+# OS
+.DS_Store
+Thumbs.db
