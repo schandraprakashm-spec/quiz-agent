@@ -9,8 +9,13 @@ from app.models.user import User
 from app.api.auth import router as auth_router
 from app.api.quiz import router as quiz_router
 
-# Create tables
-Base.metadata.create_all(bind=engine)
+# Create tables (log and re-raise errors to make deploy issues visible)
+try:
+    Base.metadata.create_all(bind=engine)
+except Exception as e:
+    import traceback, sys
+    traceback.print_exc()
+    raise RuntimeError(f"Database initialization failed: {e}")
 
 app = FastAPI()
 
