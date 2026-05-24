@@ -14,7 +14,7 @@ function Signup({ setShowSignup }) {
     try {
 
       await API.post(
-        "/register",
+        "/auth/register",
         {
           email,
           password
