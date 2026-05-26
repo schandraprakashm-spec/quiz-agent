@@ -1,5 +1,6 @@
 from fastapi import APIRouter
 from fastapi import Depends
+from sqlalchemy  import func
 
 from pydantic import BaseModel
 
@@ -42,7 +43,7 @@ def get_quiz(
     db: Session = Depends(get_db)
 ):
 
-    questions = db.query(Question).all()
+    questions = db.query(Question).order_by(func.random()).limit(30).all()
 
     return {
         "questions": [

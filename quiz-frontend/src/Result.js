@@ -1,22 +1,48 @@
-import { useLocation } from "react-router-dom";
+import {
+  useLocation,
+  useNavigate
+} from "react-router-dom";
 
 function Result({ data: propData }) {
   const location = useLocation();
+  const navigate = useNavigate();
 
-  // ✔ supports both props and router navigation state
   const data = propData || location.state;
 
-  // ✔ if still no data
   if (!data) {
     return (
       <div style={{ padding: 50 }}>
         <h3>No result data found</h3>
-        <p>Please go back and complete the quiz again.</p>
+
+        <p>
+          Please go back and complete
+          the quiz again.
+        </p>
+
+        <button
+          onClick={() => {
+            localStorage.removeItem("token");
+            navigate("/");
+          }}
+          style={{
+            marginTop: 20,
+            padding: "10px 20px",
+            backgroundColor: "#d36b8d",
+            color: "white",
+            border: "none",
+            borderRadius: 5,
+            cursor: "pointer",
+            fontSize: 16
+          }}
+        >
+          Home
+        </button>
       </div>
     );
   }
 
-  const results = data.results || [];
+  const wrongAnswers =
+    data.results || [];
 
   return (
     <div
@@ -30,9 +56,11 @@ function Result({ data: propData }) {
         color: "#222"
       }}
     >
-      <h2>Result</h2>
+      <h2>Quiz Result</h2>
 
-      <h3>Score: {data.score}%</h3>
+      <h3>
+        Score: {data.score}%
+      </h3>
 
       <h3>
         {data.score >= 95
@@ -40,48 +68,115 @@ function Result({ data: propData }) {
           : "📚 Please Revise the Topic Again"}
       </h3>
 
-      <p>
-        Correct: {data.correct} / {data.total}
+      <p
+        style={{
+          fontSize: 18,
+          fontWeight: "bold"
+        }}
+      >
+        Correct Answers:
+        {" "}
+        {data.correct}
+        {" / "}
+        {data.total}
       </p>
 
-      <h4>Details:</h4>
+      <hr />
 
-      {results.length === 0 ? (
-        <p>No details available</p>
+      <h3>
+        Wrong Answers Review
+      </h3>
+
+      {wrongAnswers.length === 0 ? (
+        <div
+          style={{
+            padding: 20,
+            backgroundColor: "#e8ffe8",
+            border: "1px solid green",
+            borderRadius: 8
+          }}
+        >
+          <h3>
+            🎉 Excellent!
+          </h3>
+
+          <p>
+            All answers were correct.
+          </p>
+        </div>
       ) : (
-        results.map((r, i) => (
+        wrongAnswers.map((item, index) => (
           <div
-            key={i}
+            key={index}
             style={{
-              marginBottom: 15,
+              marginBottom: 20,
               padding: 15,
               borderRadius: 8,
-              border: "1px solid #cc6699",
-              backgroundColor: r.is_correct ? "#d4f7d4" : "#ffd6e0"
+              border:
+                "1px solid #cc6699",
+              backgroundColor:
+                "#ffd6e0"
             }}
           >
-            <p><b>Q:</b> {r.question}</p>
+            <p>
+              <b>
+                Question {index + 1}:
+              </b>
+            </p>
 
             <p>
-              <b>Your Answer:</b>{" "}
-              <span style={{ color: r.is_correct ? "green" : "red" }}>
-                {r.selected_answer}
+              {item.question}
+            </p>
+
+            <p>
+              <b>
+                Your Answer:
+              </b>{" "}
+              <span
+                style={{
+                  color: "red",
+                  fontWeight: "bold"
+                }}
+              >
+                {item.selected_answer}
               </span>
             </p>
 
-            {!r.is_correct && (
-              <p>
-                <b>Correct Answer:</b>{" "}
-                <span style={{ color: "green", fontWeight: "bold" }}>
-                  {r.correct_answer}
-                </span>
-              </p>
-            )}
-
-            <p>{r.is_correct ? "✅ Correct" : "❌ Wrong"}</p>
+            <p>
+              <b>
+                Correct Answer:
+              </b>{" "}
+              <span
+                style={{
+                  color: "green",
+                  fontWeight: "bold"
+                }}
+              >
+                {item.correct_answer}
+              </span>
+            </p>
           </div>
         ))
       )}
+
+      <button
+        onClick={() => {
+          localStorage.removeItem("token");
+          navigate("/");
+        }}
+        style={{
+          marginTop: 20,
+          padding: "12px 24px",
+          backgroundColor: "#d36b8d",
+          color: "white",
+          border: "none",
+          borderRadius: 5,
+          cursor: "pointer",
+          fontSize: 16
+        }}
+      >
+        Home
+      </button>
     </div>
   );
 }
