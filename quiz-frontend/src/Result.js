@@ -10,24 +10,20 @@ function Result({
 
   const data = propData || location.state;
 
+  const goHome = () => {
+    setQuizResult(null);
+    setShowSubjects(true);
+  };
+
   if (!data) {
     return (
       <div style={{ padding: 50 }}>
         <h3>No result data found</h3>
 
-        <p>
-          Please go back and complete
-          the quiz again.
-        </p>
+        <p>Please go back and complete the quiz again.</p>
 
         <button
-          onClick={() => {
-
-            setQuizResult(null);
-
-            setShowSubjects(true);
-
-          }}
+          onClick={goHome}
           style={{
             marginTop: 20,
             padding: "10px 20px",
@@ -45,8 +41,7 @@ function Result({
     );
   }
 
-  const wrongAnswers =
-    data.results || [];
+  const wrongAnswers = data.results || [];
 
   return (
     <div
@@ -62,13 +57,10 @@ function Result({
     >
       <h2>Quiz Result</h2>
 
-      <h3>
-        Score: {data.score}
-      </h3>
+      {/* ✅ FINAL FIX: NO CALCULATION */}
+      <h3>Score: {data.score}</h3>
 
-      <h3>
-        Percentage: {data.score >= 0 ? data.score && data.total ? ((data.score / data.total) * 100).toFixed(2) : data.percentage : data.percentage}%
-      </h3>
+      <h3>Percentage: {data.percentage}%</h3>
 
       <h3>
         {data.percentage >= 95
@@ -76,24 +68,19 @@ function Result({
           : "📚 Please Revise the Topic Again"}
       </h3>
 
-      <p
-        style={{
-          fontSize: 18,
-          fontWeight: "bold"
-        }}
-      >
-        Correct Answers:
-        {" "}
-        {data.correct}
-        {" / "}
-        {data.total}
+      <p style={{ fontSize: 18, fontWeight: "bold" }}>
+        Correct Answers: {data.correct} / {data.total}
       </p>
+
+      {data.wrong !== undefined && (
+        <p style={{ fontSize: 16 }}>
+          Wrong Answers: {data.wrong}
+        </p>
+      )}
 
       <hr />
 
-      <h3>
-        Wrong Answers Review
-      </h3>
+      <h3>Wrong Answers Review</h3>
 
       {wrongAnswers.length === 0 ? (
         <div
@@ -104,13 +91,8 @@ function Result({
             borderRadius: 8
           }}
         >
-          <h3>
-            🎉 Excellent!
-          </h3>
-
-          <p>
-            All answers were correct.
-          </p>
+          <h3>🎉 Excellent!</h3>
+          <p>All answers were correct.</p>
         </div>
       ) : (
         wrongAnswers.map((item, index) => (
@@ -120,46 +102,23 @@ function Result({
               marginBottom: 20,
               padding: 15,
               borderRadius: 8,
-              border:
-                "1px solid #cc6699",
-              backgroundColor:
-                "#ffd6e0"
+              border: "1px solid #cc6699",
+              backgroundColor: "#ffd6e0"
             }}
           >
-            <p>
-              <b>
-                Question {index + 1}:
-              </b>
-            </p>
+            <p><b>Question {index + 1}:</b></p>
+            <p>{item.question}</p>
 
             <p>
-              {item.question}
-            </p>
-
-            <p>
-              <b>
-                Your Answer:
-              </b>{" "}
-              <span
-                style={{
-                  color: "red",
-                  fontWeight: "bold"
-                }}
-              >
+              <b>Your Answer:</b>{" "}
+              <span style={{ color: "red", fontWeight: "bold" }}>
                 {item.selected_answer}
               </span>
             </p>
 
             <p>
-              <b>
-                Correct Answer:
-              </b>{" "}
-              <span
-                style={{
-                  color: "green",
-                  fontWeight: "bold"
-                }}
-              >
+              <b>Correct Answer:</b>{" "}
+              <span style={{ color: "green", fontWeight: "bold" }}>
                 {item.correct_answer}
               </span>
             </p>
@@ -168,13 +127,7 @@ function Result({
       )}
 
       <button
-        onClick={() => {
-
-          setQuizResult(null);
-
-          setShowSubjects(true);
-
-        }}
+        onClick={goHome}
         style={{
           marginTop: 20,
           padding: "12px 24px",
@@ -188,7 +141,6 @@ function Result({
       >
         Home
       </button>
-
     </div>
   );
 }
