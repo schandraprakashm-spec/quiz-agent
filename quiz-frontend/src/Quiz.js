@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import API from "./api/api";
 
-function Quiz({ setQuizResult }) {
+function Quiz({
+  setQuizResult,
+  selectedSubject,
+  selectedUnit
+}) {
   const [questions, setQuestions] = useState([]);
   const [answers, setAnswers] = useState({});
   const [page, setPage] = useState(1);
@@ -12,6 +16,10 @@ function Quiz({ setQuizResult }) {
         const token = localStorage.getItem("token");
 
         const res = await API.get("/quiz", {
+          params: {
+            subject: selectedSubject,
+            unit: selectedUnit
+          },
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -25,7 +33,7 @@ function Quiz({ setQuizResult }) {
     };
 
     fetchQuiz();
-  }, []);
+  }, [selectedSubject, selectedUnit]);
 
   const handleOptionChange = (
     questionId,
@@ -62,27 +70,35 @@ function Quiz({ setQuizResult }) {
       );
 
       const transformed = {
-        score: Math.round(res.data.percentage),
-        correct: res.data.score,
+        score: res.data.percentage,
+        correct:
+          res.data.correct_count ??
+          res.data.score,
         total: res.data.total_questions,
-        results: (res.data.wrong_answers || []).map(
-          (w) => ({
-            question: w.question,
-            selected_answer: w.your_answer,
-            correct_answer: w.correct_answer,
-            is_correct: false
-          })
-        )
+        results: (
+          res.data.wrong_answers || []
+        ).map((w) => ({
+          question: w.question,
+          selected_answer:
+            w.your_answer,
+          correct_answer:
+            w.correct_answer,
+          is_correct: false
+        }))
       };
 
       setQuizResult(transformed);
+
     } catch (err) {
+
       console.log(err);
+
       alert("Failed to submit quiz");
     }
   };
 
   // Pagination
+
   const questionsPerPage = 10;
 
   const startIndex =
@@ -113,6 +129,14 @@ function Quiz({ setQuizResult }) {
       <h1>Quiz Questions</h1>
 
       <h3>
+        Subject: {selectedSubject}
+      </h3>
+
+      <h3>
+        Unit: {selectedUnit}
+      </h3>
+
+      <h3>
         Page {page} of 3
       </h3>
 
@@ -138,12 +162,16 @@ function Quiz({ setQuizResult }) {
           </h3>
 
           {q.options.map(
-            (option, optionIndex) => (
+            (
+              option,
+              optionIndex
+            ) => (
               <label
                 key={optionIndex}
                 style={{
                   display: "flex",
-                  alignItems: "center",
+                  alignItems:
+                    "center",
                   marginBottom: 12,
                   cursor: "pointer",
                   fontSize: 18
@@ -168,7 +196,8 @@ function Quiz({ setQuizResult }) {
                     height: 22,
                     accentColor:
                       "#b0004f",
-                    cursor: "pointer"
+                    cursor:
+                      "pointer"
                   }}
                 />
 
@@ -179,6 +208,7 @@ function Quiz({ setQuizResult }) {
                 >
                   {option}
                 </span>
+
               </label>
             )
           )}
@@ -198,7 +228,8 @@ function Quiz({ setQuizResult }) {
               setPage(page - 1)
             }
             style={{
-              padding: "10px 20px",
+              padding:
+                "10px 20px",
               backgroundColor:
                 "#888",
               color: "white",
@@ -217,7 +248,8 @@ function Quiz({ setQuizResult }) {
               setPage(page + 1)
             }
             style={{
-              padding: "10px 20px",
+              padding:
+                "10px 20px",
               backgroundColor:
                 "#d36b8d",
               color: "white",
@@ -234,7 +266,8 @@ function Quiz({ setQuizResult }) {
           <button
             onClick={submitQuiz}
             style={{
-              padding: "10px 20px",
+              padding:
+                "10px 20px",
               backgroundColor:
                 "#d36b8d",
               color: "white",

@@ -1,11 +1,12 @@
-import {
-  useLocation,
-  useNavigate
-} from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
-function Result({ data: propData }) {
+function Result({
+  data: propData,
+  setQuizResult,
+  setShowSubjects
+}) {
+
   const location = useLocation();
-  const navigate = useNavigate();
 
   const data = propData || location.state;
 
@@ -21,8 +22,11 @@ function Result({ data: propData }) {
 
         <button
           onClick={() => {
-            localStorage.removeItem("token");
-            navigate("/");
+
+            setQuizResult(null);
+
+            setShowSubjects(true);
+
           }}
           style={{
             marginTop: 20,
@@ -59,11 +63,15 @@ function Result({ data: propData }) {
       <h2>Quiz Result</h2>
 
       <h3>
-        Score: {data.score}%
+        Score: {data.score}
       </h3>
 
       <h3>
-        {data.score >= 95
+        Percentage: {data.score >= 0 ? data.score && data.total ? ((data.score / data.total) * 100).toFixed(2) : data.percentage : data.percentage}%
+      </h3>
+
+      <h3>
+        {data.percentage >= 95
           ? "🎉 Good Job"
           : "📚 Please Revise the Topic Again"}
       </h3>
@@ -161,8 +169,11 @@ function Result({ data: propData }) {
 
       <button
         onClick={() => {
-          localStorage.removeItem("token");
-          navigate("/");
+
+          setQuizResult(null);
+
+          setShowSubjects(true);
+
         }}
         style={{
           marginTop: 20,
@@ -177,6 +188,7 @@ function Result({ data: propData }) {
       >
         Home
       </button>
+
     </div>
   );
 }

@@ -39,11 +39,22 @@ class SubmitQuizRequest(BaseModel):
 
 @router.get("/quiz")
 def get_quiz(
+    subject: str,
+    unit: str,
     current_user: str = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
 
-    questions = db.query(Question).order_by(func.random()).limit(30).all()
+    questions = (
+        db.query(Question)
+        .filter(
+            Question.subject == subject,
+            Question.unit == unit
+        )
+        .order_by(func.random())
+        .limit(30)
+        .all()
+    )
 
     return {
         "questions": [
@@ -55,7 +66,6 @@ def get_quiz(
             for q in questions
         ]
     }
-
 
 # ---------------------------------
 # SUBMIT QUIZ
@@ -69,6 +79,8 @@ def submit_quiz(
 ):
 
     score = 0
+
+    wrong_count = 0
 
     wrong_answers = []
 
@@ -90,6 +102,8 @@ def submit_quiz(
 
             else:
 
+                wrong_count += 1
+
                 wrong_answers.append({
 
                     "question": question.question,
@@ -99,10 +113,21 @@ def submit_quiz(
                     "correct_answer": question.correct_answer
                 })
 
-    total_questions = len(request.answers)
+    # Apply 1/4 negative marking
+
+    final_score = score - (wrong_count * 0.25)
+
+    # Prevent negative scores
+
+    if final_score < 0:
+        final_score = 0
+
+    # Quiz always contains 30 questions
+
+    total_questions = 30
 
     percentage = (
-        score / total_questions
+        final_score / total_questions
     ) * 100 if total_questions > 0 else 0
 
     message = (
@@ -113,13 +138,17 @@ def submit_quiz(
 
     return {
 
-        "score": score,
+        "score": round(final_score, 2),
 
         "total_questions": total_questions,
 
-        "percentage": percentage,
+        "percentage": round(percentage, 2),
 
         "message": message,
 
-        "wrong_answers": wrong_answers
+        "wrong_answers": wrong_answers,
+
+        "wrong_count": wrong_count,
+
+        "correct_count": score
     }

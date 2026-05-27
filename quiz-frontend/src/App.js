@@ -3,10 +3,9 @@ import { useState } from "react";
 import API from "./api/api";
 
 import Quiz from "./Quiz";
-
 import Result from "./Result";
-
 import Signup from "./Signup";
+import Subjects from "./Subjects";
 
 function App() {
 
@@ -24,8 +23,17 @@ function App() {
   const [showSignup, setShowSignup] =
     useState(false);
 
+  const [showSubjects, setShowSubjects] =
+    useState(false);
+
   const [forgotMessage, setForgotMessage] =
     useState(false);
+
+  const [selectedSubject, setSelectedSubject] =
+    useState("");
+
+  const [selectedUnit, setSelectedUnit] =
+    useState("");
 
   // -------------------------
   // LOGIN
@@ -50,13 +58,14 @@ function App() {
 
       setLoggedIn(true);
 
+      setShowSubjects(true);
+
     } catch (err) {
 
       console.log(err);
 
       alert("Login failed");
     }
-
   };
 
   // -------------------------
@@ -70,6 +79,25 @@ function App() {
       <Result
         data={quizResult}
         setQuizResult={setQuizResult}
+        setShowSubjects={setShowSubjects}
+      />
+
+    );
+  }
+
+  // -------------------------
+  // SUBJECTS PAGE
+  // -------------------------
+
+  if (showSubjects) {
+
+    return (
+
+      <Subjects
+        setShowSubjects={setShowSubjects}
+        setLoggedIn={setLoggedIn}
+        setSelectedSubject={setSelectedSubject}
+        setSelectedUnit={setSelectedUnit}
       />
 
     );
@@ -79,12 +107,17 @@ function App() {
   // QUIZ PAGE
   // -------------------------
 
-  if (loggedIn) {
+  if (
+    loggedIn &&
+    !showSubjects
+  ) {
 
     return (
 
       <Quiz
         setQuizResult={setQuizResult}
+        selectedSubject={selectedSubject}
+        selectedUnit={selectedUnit}
       />
 
     );
