@@ -6,8 +6,6 @@ import Quiz from "./Quiz";
 import Result from "./Result";
 import Signup from "./Signup";
 import Subjects from "./Subjects";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-
 
 function App() {
 
