@@ -3,7 +3,8 @@ import { useLocation } from "react-router-dom";
 function Result({
   data: propData,
   setQuizResult,
-  setShowSubjects
+  setShowSubjects,
+  setShowDashboard
 }) {
 
   const location = useLocation();
@@ -12,7 +13,8 @@ function Result({
 
   const goHome = () => {
     setQuizResult(null);
-    setShowSubjects(true);
+    setShowSubjects(false);
+    setShowDashboard(true);
   };
 
   if (!data) {

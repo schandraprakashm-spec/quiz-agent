@@ -1,11 +1,13 @@
 import { useState } from "react";
 
 import API from "./api/api";
-
+import Dashboard from "./Dashboard";
 import Quiz from "./Quiz";
 import Result from "./Result";
 import Signup from "./Signup";
 import Subjects from "./Subjects";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 
 function App() {
 
@@ -25,6 +27,9 @@ function App() {
 
   const [showSubjects, setShowSubjects] =
     useState(false);
+
+  const [showDashboard, setShowDashboard] =
+  useState(false);
 
   const [forgotMessage, setForgotMessage] =
     useState(false);
@@ -58,7 +63,7 @@ function App() {
 
       setLoggedIn(true);
 
-      setShowSubjects(true);
+      setShowDashboard(true);
 
     } catch (err) {
 
@@ -80,6 +85,7 @@ function App() {
         data={quizResult}
         setQuizResult={setQuizResult}
         setShowSubjects={setShowSubjects}
+        setShowDashboard={setShowDashboard}
       />
 
     );
@@ -88,6 +94,19 @@ function App() {
   // -------------------------
   // SUBJECTS PAGE
   // -------------------------
+
+  if (showDashboard) {
+
+    return (
+
+      <Dashboard
+        setShowDashboard={setShowDashboard}
+        setShowSubjects={setShowSubjects}
+      />
+
+    );
+
+  }
 
   if (showSubjects) {
 
