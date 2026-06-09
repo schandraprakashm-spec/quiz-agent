@@ -17,17 +17,56 @@ function Dashboard({
 
   };
 
+  const subjectAverages = {
+
+    History: 72,
+
+    Geography: 85,
+
+    "Indian Society": 52,
+
+    "Current Affairs": 69,
+
+    "Mental Ability": 88
+
+  };
+
+  const overallPerformance = {
+
+    overallAvg: 68,
+
+    totalTests: 48,
+
+    bestScore: 92,
+
+    averageScore: 68,
+
+    lastTestScore: 74
+
+  };
+
+  const revisionPriority = [
+
+    "Indian Society - Unit3 (48%)",
+
+    "Indian Society - Unit5 (54%)",
+
+    "History - Unit4 (58%)",
+
+    "Current Affairs - Unit5 (59%)",
+
+    "History - Unit2 (61%)"
+
+  ];
+
   const getColor = (score) => {
 
-    if (score >= 80) {
-      return "#16a34a";
-    }
+    if (score >= 80) return "#16a34a";
 
-    if (score >= 60) {
-      return "#f59e0b";
-    }
+    if (score >= 60) return "#f59e0b";
 
     return "#dc2626";
+
   };
 
   const openSubjects = () => {
@@ -42,21 +81,19 @@ function Dashboard({
 
     <div
       style={{
-        padding: 50,
+        padding: 30,
         minHeight: "100vh",
         backgroundColor: "#f5f5f5",
         fontFamily: "Arial"
       }}
     >
 
-      <h1>Dashboard</h1>
-
       <div
         style={{
           border: "2px solid #4caf50",
           borderRadius: 15,
           padding: 20,
-          marginBottom: 40,
+          marginBottom: 20,
           textAlign: "center",
           backgroundColor: "#ffffff"
         }}
@@ -66,100 +103,252 @@ function Dashboard({
             color: "#ff0000",
             fontSize: "42px",
             fontWeight: "bold",
-            margin: 0,
-            textShadow: "2px 2px 4px rgba(0,0,0,0.25)"
+            margin: 0
           }}
         >
           YOU ARE NOT EXAM READY
         </h1>
       </div>
 
-      {Object.entries(dashboardData).map(
-        ([subject, units]) => (
+      <div
+        style={{
+          marginBottom: 30,
+          fontSize: 20,
+          textAlign: "center"
+        }}
+      >
+        If cumulative average score is below 75%, you are not exam ready.
+      </div>
+
+      <div
+        style={{
+          display: "flex",
+          gap: "25px",
+          alignItems: "flex-start"
+        }}
+      >
+
+        {/* LEFT SIDE */}
+
+        <div style={{ flex: 3 }}>
 
           <div
-            key={subject}
             style={{
-              marginBottom: 30
+              display: "grid",
+              gridTemplateColumns: "180px 1fr 120px",
+              fontWeight: "bold",
+              marginBottom: 15,
+              fontSize: 22
+            }}
+          >
+            <div>Subject</div>
+            <div>Units Performance</div>
+            <div>Subject Avg</div>
+          </div>
+
+          {Object.entries(dashboardData).map(
+            ([subject, units]) => (
+
+              <div
+                key={subject}
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "180px 1fr 120px",
+                  alignItems: "center",
+                  backgroundColor: "white",
+                  padding: 15,
+                  marginBottom: 15,
+                  borderRadius: 10
+                }}
+              >
+
+                <div
+                  style={{
+                    fontSize: 18,
+                    fontWeight: "bold"
+                  }}
+                >
+                  {subject}
+                </div>
+
+                <div
+                  style={{
+                    display: "flex",
+                    gap: 10,
+                    flexWrap: "wrap"
+                  }}
+                >
+                  {units.map(
+                    (score, index) => (
+
+                      <div
+                        key={index}
+                        style={{
+                          backgroundColor: getColor(score),
+                          color: "white",
+                          width: 90,
+                          height: 40,
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          borderRadius: 5,
+                          fontWeight: "bold"
+                        }}
+                      >
+                        Unit{index + 1}
+                      </div>
+
+                    )
+                  )}
+                </div>
+
+                <div
+                  style={{
+                    textAlign: "center",
+                    fontSize: 40,
+                    fontWeight: "bold",
+                    color: getColor(
+                      subjectAverages[subject]
+                    )
+                  }}
+                >
+                  {subjectAverages[subject]}%
+                </div>
+
+              </div>
+
+            )
+          )}
+
+          <div
+            style={{
+              marginTop: 20,
+              backgroundColor: "white",
+              padding: 20,
+              borderRadius: 10,
+              display: "flex",
+              gap: 40
+            }}
+          >
+            <div>🟩 ≥80% Good</div>
+
+            <div>🟧 ≥60% Average</div>
+
+            <div>🟥 &lt;60% Bad</div>
+          </div>
+
+        </div>
+
+        {/* RIGHT SIDE */}
+
+        <div style={{ flex: 1 }}>
+
+          <div
+            style={{
+              backgroundColor: "white",
+              padding: 20,
+              borderRadius: 10,
+              marginBottom: 20
             }}
           >
 
-            <h3
+            <h2 style={{ textAlign: "center" }}>
+              Overall Performance
+            </h2>
+
+            <hr />
+
+            <p
               style={{
-                marginBottom: 10
+                textAlign: "center"
               }}
             >
-              {subject}
-            </h3>
+              Overall Avg Score
+            </p>
 
-            <div
+            <h1
               style={{
-                display: "flex",
-                gap: "12px",
-                flexWrap: "wrap"
+                textAlign: "center",
+                color: "red"
               }}
             >
+              {overallPerformance.overallAvg}%
+            </h1>
 
-              {units.map(
-                (score, index) => (
+            <p>
+              Total Tests Taken : {overallPerformance.totalTests}
+            </p>
 
-                  <div
-                    key={index}
-                    style={{
-                      backgroundColor:
-                        getColor(score),
+            <p>
+              Best Score : {overallPerformance.bestScore}%
+            </p>
 
-                      color: "white",
+            <p>
+              Average Score : {overallPerformance.averageScore}%
+            </p>
 
-                      width: 100,
-
-                      height: 45,
-
-                      display: "flex",
-
-                      alignItems: "center",
-
-                      justifyContent: "center",
-
-                      borderRadius: 6,
-
-                      fontWeight: "bold",
-
-                      boxShadow:
-                        "0 2px 4px rgba(0,0,0,0.2)"
-                    }}
-                  >
-                    Unit{index + 1}
-                  </div>
-
-                )
-              )}
-
-            </div>
+            <p>
+              Last Test Score : {overallPerformance.lastTestScore}%
+            </p>
 
           </div>
 
-        )
-      )}
+          <div
+            style={{
+              backgroundColor: "white",
+              padding: 20,
+              borderRadius: 10
+            }}
+          >
 
-      <button
-        onClick={openSubjects}
-        style={{
-          marginTop: 30,
-          padding: "12px 24px",
-          backgroundColor: "#c2185b",
-          color: "white",
-          border: "none",
-          borderRadius: 5,
-          cursor: "pointer",
-          fontSize: 16
-        }}
-      >
-        Start Assessment
-      </button>
+            <h2 style={{ textAlign: "center" }}>
+              Revision Priority
+            </h2>
+
+            <hr />
+
+            {revisionPriority.map(
+              (item, index) => (
+
+                <p
+                  key={index}
+                  style={{
+                    color: "red"
+                  }}
+                >
+                  {index + 1}. {item}
+                </p>
+
+              )
+            )}
+
+          </div>
+
+          <button
+            onClick={openSubjects}
+            style={{
+              width: "100%",
+              marginTop: 20,
+              padding: "15px",
+              backgroundColor: "#16a34a",
+              color: "white",
+              border: "none",
+              borderRadius: 5,
+              cursor: "pointer",
+              fontSize: 18,
+              fontWeight: "bold"
+            }}
+          >
+            Start Assessment
+          </button>
+
+        </div>
+
+      </div>
 
     </div>
 
   );
 }
+
 export default Dashboard;
