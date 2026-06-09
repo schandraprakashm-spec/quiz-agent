@@ -98,9 +98,11 @@ function App() {
     return (
 
       <Dashboard
-        setShowDashboard={setShowDashboard}
-        setShowSubjects={setShowSubjects}
-      />
+      setShowDashboard={setShowDashboard}
+      setShowSubjects={setShowSubjects}
+      setSelectedSubject={setSelectedSubject}
+      setSelectedUnit={setSelectedUnit}
+    />
 
     );
 
@@ -126,7 +128,10 @@ function App() {
 
   if (
     loggedIn &&
-    !showSubjects
+    !showDashboard &&
+    !showSubjects &&
+    selectedSubject &&
+    selectedUnit
   ) {
 
     return (

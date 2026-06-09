@@ -13,11 +13,11 @@ function Subjects({
     useState("");
 
   const subjects = [
-    "చరిత్ర (History)",
-    "భౌగోళిక శాస్త్రం (Geography)",
-    "భారతీయ సమాజం (Indian Society)",
-    "ప్రస్తుత వ్యవహారాలు (Current Affairs)",
-    "మానసిక సామర్థ్యం (Mental Ability - Logical Reasoning & Data Interpretation)"
+    "History",
+    "Geography",
+    "Indian Society",
+    "Current Affairs",
+    "Mental Ability"
   ];
 
   const units = [

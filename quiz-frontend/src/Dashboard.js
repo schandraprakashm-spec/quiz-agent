@@ -1,6 +1,8 @@
 function Dashboard({
   setShowDashboard,
-  setShowSubjects
+  setShowSubjects,
+  setSelectedSubject,
+  setSelectedUnit
 }) {
 
   const dashboardData = {
@@ -74,6 +76,21 @@ function Dashboard({
     setShowDashboard(false);
 
     setShowSubjects(true);
+
+  };
+
+  const startUnitQuiz = (
+    subject,
+    unit
+  ) => {
+
+    setSelectedSubject(subject);
+
+    setSelectedUnit(unit);
+
+    setShowSubjects(false);
+
+    setShowDashboard(false);
 
   };
 
@@ -183,6 +200,12 @@ function Dashboard({
 
                       <div
                         key={index}
+                        onClick={() =>
+                          startUnitQuiz(
+                            subject,
+                            `Unit${index + 1}`
+                          )
+                        }
                         style={{
                           backgroundColor: getColor(score),
                           color: "white",
@@ -192,7 +215,8 @@ function Dashboard({
                           alignItems: "center",
                           justifyContent: "center",
                           borderRadius: 5,
-                          fontWeight: "bold"
+                          fontWeight: "bold",
+                          cursor: "pointer"
                         }}
                       >
                         Unit{index + 1}
