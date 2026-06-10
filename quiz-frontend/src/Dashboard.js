@@ -84,10 +84,6 @@ function Dashboard({
     unit
   ) => {
 
-    alert(
-      `Clicked ${subject} ${unit}`
-    );
-
     setSelectedSubject(subject);
 
     setSelectedUnit(unit);
