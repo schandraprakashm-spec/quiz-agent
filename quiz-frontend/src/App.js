@@ -7,6 +7,7 @@ import Result from "./Result";
 import Signup from "./Signup";
 import Subjects from "./Subjects";
 import LanguageSelection from "./LanguageSelection";
+import StudyMaterial from "./StudyMaterial";
 
 function App() {
 
@@ -44,6 +45,9 @@ function App() {
 
   const [selectedLanguage, setSelectedLanguage] =
     useState("");
+
+  const [showStudyMaterial, setShowStudyMaterial] =
+    useState(false);
 
   // -------------------------
   // LOGIN
@@ -114,6 +118,18 @@ function App() {
   // -------------------------
   // SUBJECTS PAGE
   // -------------------------
+  if (showStudyMaterial) {
+
+    return (
+
+      <StudyMaterial
+        setShowStudyMaterial={setShowStudyMaterial}
+        setShowDashboard={setShowDashboard}
+      />
+
+    );
+
+  }
 
   if (showDashboard) {
 
@@ -125,6 +141,7 @@ function App() {
       setSelectedSubject={setSelectedSubject}
       setSelectedUnit={setSelectedUnit}
       selectedLanguage={selectedLanguage}
+      setShowStudyMaterial={setShowStudyMaterial}
     />
 
     );

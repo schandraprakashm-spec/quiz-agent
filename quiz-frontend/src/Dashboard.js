@@ -2,7 +2,8 @@ function Dashboard({
   setShowDashboard,
   setShowSubjects,
   setSelectedSubject,
-  setSelectedUnit
+  setSelectedUnit,
+  setShowStudyMaterial
 }) {
 
   const dashboardData = {
@@ -364,6 +365,27 @@ function Dashboard({
             }}
           >
             Start Assessment
+          </button>
+
+          <button
+            onClick={() => {
+              setShowDashboard(false);
+              setShowStudyMaterial(true);
+            }}
+            style={{
+              width: "100%",
+              marginTop: 15,
+              padding: "15px",
+              backgroundColor: "#2563eb",
+              color: "white",
+              border: "none",
+              borderRadius: 5,
+              cursor: "pointer",
+              fontSize: 18,
+              fontWeight: "bold"
+            }}
+          >
+            Study Material
           </button>
 
         </div>
