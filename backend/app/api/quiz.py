@@ -41,6 +41,7 @@ class SubmitQuizRequest(BaseModel):
 def get_quiz(
     subject: str,
     unit: str,
+    language: str,
     current_user: str = Depends(get_current_user),
     db: Session = Depends(get_db)
 ):
@@ -49,7 +50,8 @@ def get_quiz(
         db.query(Question)
         .filter(
             Question.subject == subject,
-            Question.unit == unit
+            Question.unit == unit,
+            Question.language == language
         )
         .order_by(func.random())
         .limit(30)
@@ -66,7 +68,6 @@ def get_quiz(
             for q in questions
         ]
     }
-
 # ---------------------------------
 # SUBMIT QUIZ
 # ---------------------------------

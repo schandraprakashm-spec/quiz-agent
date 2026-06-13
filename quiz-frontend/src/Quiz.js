@@ -4,7 +4,8 @@ import API from "./api/api";
 function Quiz({
   setQuizResult,
   selectedSubject,
-  selectedUnit
+  selectedUnit,
+  selectedLanguage_Medium
 }) {
   const [questions, setQuestions] = useState([]);
   const [answers, setAnswers] = useState({});
@@ -18,7 +19,8 @@ function Quiz({
         const res = await API.get("/quiz", {
           params: {
             subject: selectedSubject,
-            unit: selectedUnit
+            unit: selectedUnit,
+            language: selectedLanguage_Medium
           },
           headers: {
             Authorization: `Bearer ${token}`
@@ -33,7 +35,7 @@ function Quiz({
     };
 
     fetchQuiz();
-  }, [selectedSubject, selectedUnit]);
+  }, [selectedSubject, selectedUnit, selectedLanguage_Medium]);
 
   const handleOptionChange = (questionId, selectedOption) => {
     setAnswers((prev) => ({
@@ -113,6 +115,7 @@ function Quiz({
 
       <h3>Subject: {selectedSubject}</h3>
       <h3>Unit: {selectedUnit}</h3>
+      <h3>Language: {selectedLanguage_Medium}</h3>
 
       <h3>Page {page} of 3</h3>
 
