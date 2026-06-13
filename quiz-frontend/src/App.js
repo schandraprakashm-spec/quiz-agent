@@ -6,6 +6,7 @@ import Quiz from "./Quiz";
 import Result from "./Result";
 import Signup from "./Signup";
 import Subjects from "./Subjects";
+import LanguageSelection from "./LanguageSelection";
 
 function App() {
 
@@ -38,6 +39,12 @@ function App() {
   const [selectedUnit, setSelectedUnit] =
     useState("");
 
+  const [showLanguage, setShowLanguage] =
+    useState(false);
+
+  const [selectedLanguage, setSelectedLanguage] =
+    useState("");
+
   // -------------------------
   // LOGIN
   // -------------------------
@@ -61,7 +68,8 @@ function App() {
 
       setLoggedIn(true);
 
-      setShowDashboard(true);
+      setShowLanguage(true);
+
 
     } catch (err) {
 
@@ -89,6 +97,20 @@ function App() {
     );
   }
 
+  if (showLanguage) {
+
+    return (
+
+      <LanguageSelection
+        setShowLanguage={setShowLanguage}
+        setShowDashboard={setShowDashboard}
+        setSelectedLanguage={setSelectedLanguage}
+      />
+
+    );
+
+  }
+
   // -------------------------
   // SUBJECTS PAGE
   // -------------------------
@@ -102,6 +124,7 @@ function App() {
       setShowSubjects={setShowSubjects}
       setSelectedSubject={setSelectedSubject}
       setSelectedUnit={setSelectedUnit}
+      selectedLanguage={selectedLanguage}
     />
 
     );
@@ -140,6 +163,7 @@ function App() {
         setQuizResult={setQuizResult}
         selectedSubject={selectedSubject}
         selectedUnit={selectedUnit}
+        selectedLanguage={selectedLanguage}
       />
 
     );
