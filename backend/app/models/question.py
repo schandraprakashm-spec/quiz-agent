@@ -13,6 +13,8 @@ class Question(Base):
 
     unit = Column(String, nullable=False)
 
+    language = Column(String, nullable=False)
+
     difficulty = Column(String, nullable=False)
 
     question = Column(String, nullable=False)
