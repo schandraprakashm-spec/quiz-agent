@@ -5,8 +5,9 @@ function Quiz({
   setQuizResult,
   selectedSubject,
   selectedUnit,
-  selectedLanguage_Medium
+  selectedLanguage
 }) {
+  console.log("selectedLanguage =", selectedLanguage);
   const [questions, setQuestions] = useState([]);
   const [answers, setAnswers] = useState({});
   const [page, setPage] = useState(1);
@@ -20,7 +21,7 @@ function Quiz({
           params: {
             subject: selectedSubject,
             unit: selectedUnit,
-            language: selectedLanguage_Medium
+            language: selectedLanguage
           },
           headers: {
             Authorization: `Bearer ${token}`
@@ -35,7 +36,7 @@ function Quiz({
     };
 
     fetchQuiz();
-  }, [selectedSubject, selectedUnit, selectedLanguage_Medium]);
+  }, [selectedSubject, selectedUnit, selectedLanguage ]);
 
   const handleOptionChange = (questionId, selectedOption) => {
     setAnswers((prev) => ({
@@ -115,7 +116,7 @@ function Quiz({
 
       <h3>Subject: {selectedSubject}</h3>
       <h3>Unit: {selectedUnit}</h3>
-      <h3>Language: {selectedLanguage_Medium}</h3>
+      <h3>Language: {selectedLanguage}</h3>
 
       <h3>Page {page} of 3</h3>
 
