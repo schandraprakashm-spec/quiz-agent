@@ -16,8 +16,6 @@ from app.auth_dependency import get_current_user
 
 from app.models.quiz_result import QuizResult
 
-import db
-
 router = APIRouter()
 
 
