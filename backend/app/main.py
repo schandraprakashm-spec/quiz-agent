@@ -5,6 +5,7 @@ from app.db.database import engine, Base
 
 from app.models.question import Question
 from app.models.user import User
+from app.models.quiz_result import QuizResult
 
 from app.api.auth import router as auth_router
 from app.api.quiz import router as quiz_router

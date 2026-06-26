@@ -168,7 +168,11 @@ def submit_quiz(
 
     db.add(result)
 
+    print("Adding result to database...")
+
     db.commit()
+
+    print("Commit successful!")
 
     return {
 
