@@ -57,8 +57,13 @@ function Quiz({
       );
 
       const res = await API.post(
-        "/submit",
-        { answers: formattedAnswers },
+                            "/submit",
+                            {
+                                subject: selectedSubject,
+                                unit: selectedUnit,
+                                language: selectedLanguage,
+                                answers: formattedAnswers
+                            },
         {
           headers: {
             Authorization: `Bearer ${token}`

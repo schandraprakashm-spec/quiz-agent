@@ -14,6 +14,10 @@ from app.models.question import Question
 
 from app.auth_dependency import get_current_user
 
+from app.models.quiz_result import QuizResult
+
+import db
+
 router = APIRouter()
 
 
@@ -30,8 +34,13 @@ class Answer(BaseModel):
 
 class SubmitQuizRequest(BaseModel):
 
-    answers: List[Answer]
+    subject: str
 
+    unit: str
+
+    language: str
+
+    answers: List[Answer]
 
 # ---------------------------------
 # GET QUIZ QUESTIONS
@@ -136,6 +145,32 @@ def submit_quiz(
         if percentage >= 95
         else "Please REVISE the topic again"
     )
+
+    result = QuizResult(
+
+        user_email=current_user,
+
+        subject=request.subject,
+
+        unit=request.unit,
+
+        language=request.language,
+
+        score=round(final_score, 2),
+
+        percentage=round(percentage, 2),
+
+        total_questions=total_questions,
+
+        correct_answers=score,
+
+        wrong_answers=wrong_count
+
+    )
+
+    db.add(result)
+
+    db.commit()
 
     return {
 
